@@ -23,22 +23,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function mintNFT() {
-        if (!contract) {
-            console.error('Contract is not initialized.');
-            alert('Contract is not initialized. Please refresh the page and try again.');
-            return;
-        }
-
-        try {
-            const transaction = await contract.mint(); // Assuming the mint function requires no parameters
-            await transaction.wait();
-            console.log('NFT minted successfully!');
-            alert('NFT minted successfully!');
-        } catch (error) {
-            console.error('Error minting NFT:', error);
-            alert('Error minting NFT. Check the console for more details.');
-        }
+    if (!contract) {
+        console.error('Contract is not initialized.');
+        alert('Contract is not initialized. Please refresh the page and try again.');
+        return;
     }
+
+    try {
+        const estimatedGasLimit = await contract.estimateGas.mint(); // Estimate gas
+        const gasLimit = estimatedGasLimit.mul(120).div(100); // Add 20% buffer to the estimated gas
+
+        const transaction = await contract.mint({ gasLimit: gasLimit.toString() });
+        await transaction.wait();
+        console.log('NFT minted successfully!');
+        alert('NFT minted successfully!');
+    } catch (error) {
+        console.error('Error minting NFT:', error);
+        alert('Error minting NFT. Check the console for more details.');
+    }
+}
 
     mintButton.addEventListener('click', mintNFT);
 
