@@ -30,18 +30,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     try {
-        const estimatedGasLimit = await contract.estimateGas.mint(); // Estimate gas
-        const gasLimit = estimatedGasLimit.mul(120).div(100); // Add 20% buffer to the estimated gas
-
-        const transaction = await contract.mint({ gasLimit: gasLimit.toString() });
-        await transaction.wait();
-        console.log('NFT minted successfully!');
+        // Manually setting the gas limit to 500,000
+        const transaction = await contract.mint({ gasLimit: 500000 });
+        const receipt = await transaction.wait();
+        console.log('NFT minted successfully!', receipt);
         alert('NFT minted successfully!');
     } catch (error) {
         console.error('Error minting NFT:', error);
         alert('Error minting NFT. Check the console for more details.');
     }
 }
+
 
     mintButton.addEventListener('click', mintNFT);
 
