@@ -18,19 +18,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function mintNFT() {
-        if (!contract) {
-            console.error('Contract is not initialized.');
-            return;
-        }
-
-        try {
-            const transaction = await contract.mintSBT(); // Ensure this is the correct function to call for minting
-            await transaction.wait();
-            console.log('NFT minted successfully!');
-        } catch (error) {
-            console.error('Error minting NFT:', error);
-        }
+    if (!contract) {
+        console.error('Contract is not initialized.');
+        return;
     }
+
+    // Define the parameters - these will need to be determined based on your contract's logic
+    const deadline = /* The deadline timestamp or block number */;
+    const attributeHash = /* The attribute hash, as a bytes32 value */;
+    const signature = /* The signature, as a bytes value */;
+
+    try {
+        const transaction = await contract.mintSBT(deadline, attributeHash, signature);
+        await transaction.wait();
+        console.log('NFT minted successfully!');
+    } catch (error) {
+        console.error('Error minting NFT:', error);
+    }
+}
+
 
     mintButton.addEventListener('click', mintNFT);
 
